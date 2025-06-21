@@ -1,18 +1,19 @@
 create database crfunding;
 use crfunding;
+-- 1. User table created
 CREATE TABLE usersLogin (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL
 );
 
--- 2. Campaign categories table
+-- 2. Campaign categories table created
 CREATE TABLE campCtg (
     ctg_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
--- 3. Campaigns table
+-- 3. Campaigns table created
 CREATE TABLE campaigns (
     campaign_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -26,7 +27,7 @@ CREATE TABLE campaigns (
     FOREIGN KEY (ctg_id) REFERENCES campCtg(ctg_id)
 );
 
--- 4. Reward tiers table
+-- 4. Reward tiers table created
 CREATE TABLE reward_tiers (
     tier_id INT AUTO_INCREMENT PRIMARY KEY,
     campaign_id INT NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE reward_tiers (
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
 );
 
--- 5. Pledges table
+-- 5. Pledges table created
 CREATE TABLE pledges (
     pledge_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -47,6 +48,7 @@ CREATE TABLE pledges (
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id),
     FOREIGN KEY (reward_tier_id) REFERENCES reward_tiers(tier_id)
 );
+-- 6. Disbursement table created
 CREATE TABLE disbursements (
     disbursement_id INT AUTO_INCREMENT PRIMARY KEY,
     campaign_id INT NOT NULL,
@@ -54,7 +56,6 @@ CREATE TABLE disbursements (
     disbursed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
 );
-
 
 -- INSERT USERS
 INSERT INTO usersLogin(name, email) VALUES
@@ -95,8 +96,9 @@ INSERT INTO pledges (user_id, campaign_id, amount, reward_tier_id) VALUES
 (1, 1, 100.00, 2),
 (5, 1, 10.00, 1);
 INSERT INTO disbursements (campaign_id, amount) VALUES
-(1, 200.00), 
+(1, 200.00),
 (2, 120.00); 
+
 -- SAMPLE QUERIES
 
 -- 1. Top 5 campaigns with highest total funding
